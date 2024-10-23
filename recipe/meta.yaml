@@ -1,0 +1,51 @@
+{% set name = "seeq" %}
+{% set version = "65.1.7" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/seeq-{{ version }}.tar.gz
+  sha256: a6f58156cc4696eeb8bd29752fc0bb63208014cf8a4fc60b0b43cceb669fc1e3
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - certifi >=14.05.14
+    - six >=1.10
+    - urllib3 >=1.15.1,<2.0.0
+    - requests >=2.21.0
+    - cryptography >=3.2
+
+test:
+  imports:
+    - seeq.sdk
+    - seeq.sdk.api
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://www.seeq.com
+  summary: The Seeq SDK for Python
+  license: AGPL-3.0
+  license_file: LICENSE
+
+extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49247
+    reason: Client request
+  recipe-maintainers:
+    - ianaobi
+  recipe-maintainers:
+    - AddYourGitHubIdHere
